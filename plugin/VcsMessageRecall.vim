@@ -12,6 +12,10 @@
 " Maintainer:	Ingo Karkat <ingo@karkat.de>
 "
 " REVISION	DATE		REMARKS
+"   1.01.006	25-Jun-2012	Revise range regexp to avoid capturing an empty
+"				line before (more empty lines before) the
+"				boilerplate, and to avoid capturing the first
+"				line of the boilerplate when at line 1.
 "   1.00.005	25-Jun-2012	Move message store strategies for the individual
 "				VCS into separate autoload scripts.
 "   1.00.004	23-Jun-2012	Do the boilerplate search from the start of the
@@ -37,9 +41,9 @@ let g:loaded_VcsMessageRecall = 1
 
 augroup VcsMessageRecall
     autocmd!
-    autocmd FileType gitcommit,gitcommit.* call MessageRecall#Setup(VcsMessageRecall#git#MessageStore(), {'whenRangeNoMatch': 'all', 'range': '1,1/^\n*# Please enter the commit message for your changes\./-1'})
-    autocmd FileType hgcommit,hgcommit.*   call MessageRecall#Setup(VcsMessageRecall#hg#MessageStore() , {'whenRangeNoMatch': 'all', 'range': '1,1/^\n*HG: Enter commit message\./-1'})
-    autocmd FileType svn,svn.*             call MessageRecall#Setup(VcsMessageRecall#svn#MessageStore(), {'whenRangeNoMatch': 'all', 'range': '1,1/^\n*--This line, and those below, will be ignored--/-1'})
+    autocmd FileType gitcommit,gitcommit.* call MessageRecall#Setup(VcsMessageRecall#git#MessageStore(), {'whenRangeNoMatch': 'all', 'range': '1,1/.\n\zs\n*# Please enter the commit message for your changes\./-1'})
+    autocmd FileType hgcommit,hgcommit.*   call MessageRecall#Setup(VcsMessageRecall#hg#MessageStore() , {'whenRangeNoMatch': 'all', 'range': '1,1/.\n\zs\n*HG: Enter commit message\./-1'})
+    autocmd FileType svn,svn.*             call MessageRecall#Setup(VcsMessageRecall#svn#MessageStore(), {'whenRangeNoMatch': 'all', 'range': '1,1/.\n\zs\n*--This line, and those below, will be ignored--/-1'})
 augroup END
 
 " vim: set ts=8 sts=4 sw=4 noexpandtab ff=unix fdm=syntax :
