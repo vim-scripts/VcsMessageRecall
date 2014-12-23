@@ -28,6 +28,10 @@ SEE ALSO								     *
 
 RELATED WORKS								     *
 
+- svn_commit (vimscript #1451) will look in the current directory for aborted
+  subversion commit log messages, and then read in the newest one to your
+  current commit log.
+
 ==============================================================================
 USAGE						      *VcsMessageRecall-usage*
 
@@ -68,16 +72,18 @@ your carefully crafted text.
 INSTALLATION				       *VcsMessageRecall-installation*
 
 This script is packaged as a |vimball|. If you have the "gunzip" decompressor
-in your PATH, simply edit the *.vba.gz package in Vim; otherwise, decompress
+in your PATH, simply edit the *.vmb.gz package in Vim; otherwise, decompress
 the archive first, e.g. using WinZip. Inside Vim, install by sourcing the
 vimball or via the |:UseVimball| command. >
-    vim VcsMessageRecall.vba.gz
+    vim VcsMessageRecall*.vmb.gz
     :so %
 To uninstall, use the |:RmVimball| command.
 
 DEPENDENCIES				       *VcsMessageRecall-dependencies*
 
 - Requires Vim 7.0 or higher.
+- Requires the |ingo-library.vim| plugin (vimscript #4433), version 1.012 or
+  higher.
 - Requires the EditSimilar plugin (vimscript #2544), version 2.00 or higher.
 - Requires the BufferPersist plugin (vimscript #4115).
 - Requires the MessageRecall plugin (vimscript #4116).
@@ -113,6 +119,19 @@ IDEAS						      *VcsMessageRecall-ideas*
 ==============================================================================
 HISTORY						    *VcsMessageRecall-history*
 
+1.04	23-Dec-2014
+- Factor out function to and use ingo-library.
+- Support Subversion 1.7 repository layout with only a single .svn directory
+  inside the working copy root.
+- FIX: Make Mercurial root dir detection work when CWD is outside of the
+  working copy.
+  *** You need to separately install ingo-library (vimscript #4433) version
+  1.012 (or higher)! ***
+
+1.03	09-Nov-2012 (unreleased)
+- FIX: On Cygwin and Mercurial, the system() calls have a trailing newline,
+  which breaks the concatenation and leads to strange errors.
+
 1.02	12-Jul-2012
 - FIX: Typo in function name breaks Subversion support.
 - FIX: Avoid determining message store location when a stored message is
@@ -138,8 +157,8 @@ First published version.
 Started development.
 
 ==============================================================================
-Copyright: (C) 2012 Ingo Karkat
-The VIM LICENSE applies to this script; see |copyright|.
+Copyright: (C) 2012-2014 Ingo Karkat
+The VIM LICENSE applies to this plugin; see |copyright|.
 
 Maintainer:	Ingo Karkat <ingo@karkat.de>
 ==============================================================================
